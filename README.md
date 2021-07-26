@@ -1,33 +1,5 @@
-### Bellabeat project set up WORKFLOW
+### project set up WORKFLOW
 
-📌  Steps in setting up git project on your local machine
-
-![alt tag](https://img.shields.io/badge/git%20-Config%20project-blue)
-
-1. Clone a repo from Github
-2. Create a git SSH key and paste it into Github -> Setting -> SSH & GPG keys
-3. Set up your global and local config file as needed: add username and email for USER-
-```shell
-        [user] 
-	name = marko markic 
-	email = xx@xx.xx "
-```
-	
-4. Download in app content framework from submodule in terminal
-
-```
-git submodule update --init --recursive
-```
-5. Update Carthage
-```shell
-carthage bootstrap --platform iOS --use-ssh
-```
-(Later for faster builds, use flag)
-```shell
-carthage bootstrap --platform iOS --use-ssh --cache-builds
-```
-
-📌  Common practice: ```merge``` when bigger and longer features, for all other cases use ```rebase```
 
 ![alt tag](https://img.shields.io/badge/git%20-Rebase%20project-blue)
 ### How to Rebase it via Sourcetree?
