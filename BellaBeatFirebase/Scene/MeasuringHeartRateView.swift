@@ -174,6 +174,7 @@ class MeasuringHeartRateView: UIView {
     
     private func setUpAnimations() {
             self.animatingView.scaleAnimtation()
+        
 
     }
     override func layoutSubviews() {

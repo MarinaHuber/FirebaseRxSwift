@@ -20,6 +20,8 @@
 		9C56741E25FA1C420082858D /* ChartViewMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C56741D25FA1C420082858D /* ChartViewMonth.swift */; };
 		9C91BCDC2552D9D100CA8BAD /* FireTaskAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C91BCDB2552D9D100CA8BAD /* FireTaskAPI.swift */; };
 		9C91BCE4255357F200CA8BAD /* FireAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C91BCE3255357F200CA8BAD /* FireAPIProtocol.swift */; };
+		9C958DF226207A2600BF11D9 /* InfoReadiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C958DF126207A2600BF11D9 /* InfoReadiness.swift */; };
+		9C964D44261C922E00F904C9 /* RespiratoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C964D43261C922E00F904C9 /* RespiratoryChartView.swift */; };
 		9CA323D425F1797B00566A2D /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA323D325F1797B00566A2D /* ChartViewController.swift */; };
 		9CACF6DD25F6CC24005E2E54 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CACF6DC25F6CC24005E2E54 /* ChartView.swift */; };
 		9CB024D325598CD2005F03EC /* ToDoList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CB024D225598CD2005F03EC /* ToDoList.storyboard */; };
@@ -72,6 +74,8 @@
 		9C56741D25FA1C420082858D /* ChartViewMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewMonth.swift; sourceTree = "<group>"; };
 		9C91BCDB2552D9D100CA8BAD /* FireTaskAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireTaskAPI.swift; sourceTree = "<group>"; };
 		9C91BCE3255357F200CA8BAD /* FireAPIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireAPIProtocol.swift; sourceTree = "<group>"; };
+		9C958DF126207A2600BF11D9 /* InfoReadiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoReadiness.swift; sourceTree = "<group>"; };
+		9C964D43261C922E00F904C9 /* RespiratoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryChartView.swift; sourceTree = "<group>"; };
 		9CA323D325F1797B00566A2D /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		9CACF6DC25F6CC24005E2E54 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		9CB024D225598CD2005F03EC /* ToDoList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ToDoList.storyboard; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				9CACF6DC25F6CC24005E2E54 /* ChartView.swift */,
 				9C56741825FA1C280082858D /* ChartViewWeek.swift */,
 				9C56741D25FA1C420082858D /* ChartViewMonth.swift */,
+				9C964D43261C922E00F904C9 /* RespiratoryChartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 				9CA323D325F1797B00566A2D /* ChartViewController.swift */,
 				9C13790A25FF8E180065C800 /* MeasuringHeartRateView.swift */,
 				9C13793A2600EEBA0065C800 /* AnimationTest.swift */,
+				9C958DF126207A2600BF11D9 /* InfoReadiness.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -497,6 +503,7 @@
 			files = (
 				9CF38B0225504A6500A0D63E /* ListTableViewController.swift in Sources */,
 				9CACF6DD25F6CC24005E2E54 /* ChartView.swift in Sources */,
+				9C964D44261C922E00F904C9 /* RespiratoryChartView.swift in Sources */,
 				9CF38AFE25504A6500A0D63E /* AppDelegate.swift in Sources */,
 				9C91BCE4255357F200CA8BAD /* FireAPIProtocol.swift in Sources */,
 				9C56741E25FA1C420082858D /* ChartViewMonth.swift in Sources */,
@@ -509,6 +516,7 @@
 				9C0A7E11255F225000891DF1 /* UIView+Extention.swift in Sources */,
 				9C13790B25FF8E180065C800 /* MeasuringHeartRateView.swift in Sources */,
 				9CF38B0025504A6500A0D63E /* SceneDelegate.swift in Sources */,
+				9C958DF226207A2600BF11D9 /* InfoReadiness.swift in Sources */,
 				9C0A7E0D255F215C00891DF1 /* UITableView+Extention.swift in Sources */,
 				9CF38B0825504A6500A0D63E /* BellaBeatFirebase.xcdatamodeld in Sources */,
 				9C56741925FA1C280082858D /* ChartViewWeek.swift in Sources */,

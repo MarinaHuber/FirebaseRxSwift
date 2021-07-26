@@ -29,8 +29,7 @@ class ChartViewWeek: UIView {
         self.iconView.contentMode = .scaleAspectFit
         self.bgImageView.contentMode = .scaleToFill
         self.bgImageView.alpha = 0.2
-        self.iconView.image = UIImage(named: "heart.png")
-        self.bgImageView.image = UIImage(named: "backgroundey.png")
+        self.iconView.image = UIImage(named: "Vector.png")
         self.roundView.layer.cornerRadius = 19
         self.roundView.layer.borderWidth = 0.8
         self.roundView.layer.borderColor = UIColor.lightGray.cgColor
@@ -102,7 +101,7 @@ class ChartViewWeek: UIView {
     
     private func configureColumnrangeMixedLineChart() {
         let aaChartModel = AAChartModel()
-            .colorsTheme(["#FFE5E5"])
+            .colorsTheme(["#CDFBF1"])
             .chartType(.columnrange)
             .axesTextColor(AAColor.black)
             .xAxisVisible(true)
@@ -113,7 +112,7 @@ class ChartViewWeek: UIView {
             .series([
                 AASeriesElement()
                     .type(.line)
-                    .color("#FF0000")
+                    .color("#0DE2B5")
                     .lineWidth(0.8)
                     .enableMouseTracking(false)
                     .zIndex(1)
@@ -133,9 +132,12 @@ class ChartViewWeek: UIView {
         
         let aaOptions = AAOptionsConstructor.configureChartOptions(aaChartModel)
         aaOptions.yAxis?
+            .max(roundToTens(calculateMaxValue())).min(0)
+            .allowDecimals(false)
             .lineWidth(0)
-            .tickInterval(20) //space between yaxis labels proportional to data
             .gridLineWidth(0)
+            .alternateGridColor("#F9F9FA")
+            .tickInterval(Float(roundToTens(calculateMaxValue())/10.0))
         aaOptions.yAxis?.labels(AALabels()
                                     .x(-35)
                                     .align("left")
@@ -145,7 +147,7 @@ class ChartViewWeek: UIView {
                                             .fontSize(13)))
         aaOptions.xAxis?
             .gridLineWidth(0)
-            .tickWidth(1)
+            .tickInterval(10)
         aaOptions.xAxis?.labels(AALabels()
                                     .y(20)
                                     .align("center")
@@ -153,13 +155,38 @@ class ChartViewWeek: UIView {
                                             .color(AAColor.black)
                                             .fontWeight(AAChartFontWeightType.regular)
                                             .fontSize(13)))
-        aaOptions.xAxis?.categories(["S", "M", "T", "W", "T", "F", "S"])
+        aaOptions.xAxis?.categories(["AM", "PM"])
         
         aaOptions.plotOptions?.columnrange(AAColumnrange()
                                             .borderRadius(10)
                                             .borderWidth(0))
         
         self.aaChartView.aa_drawChartWithChartOptions(aaOptions)
+    }
+    
+    
+    func createXAxisLabels(_ labels: [String], hours: Int) -> [String] {
+        var array = [String]()
+        array.append(labels.first ?? "" + "AM")
+        for _ in 0..<hours - 1  {
+            array.append("")
+        }
+        array.append(labels.last ?? "" + "PM")
+        return array
+    }
+    
+    
+    func roundToTens(_ x : Double) -> Double {
+        return 10 * Double((x / 10.0).rounded())
+    }
+    
+    func calculateMaxValue() -> Double {
+        var array = [Double]()
+        _ =  mockData.map {
+            let maxNum = $0.max ?? 0
+            array.append(maxNum)
+        }
+        return array.max() ?? 0
     }
     
     func generateMockData(_ units: Int) -> [HeartRateAggregateItem] {
@@ -171,8 +198,8 @@ class ChartViewWeek: UIView {
     }
     
     func generateRandomHeartRateAggregareItem() -> HeartRateAggregateItem {
-        let min = Int.random(in: 50...100)
-        let max = min + Int.random(in: 10...50)
+        let min = Double.random(in: 50...100)
+        let max = min + Double.random(in: 10...50)
         let avg = (max + min) / 2
         return HeartRateAggregateItem(max: max, min: min, avg: avg)
     }

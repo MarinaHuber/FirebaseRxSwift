@@ -10,13 +10,14 @@ import UIKit
 import AAInfographics
 import SnapKit
 
+
 class ChartView: UIView {
     
-    private var iconView = UIImageView(frame: .zero)
-    private var bgImageView = UIImageView(frame: .zero)
-    private var roundView = UIView(frame: .zero)
-    private var titleLabel = UILabel()
-    private var subTitleLabel = UILabel()
+    private let iconView = UIImageView(frame: .zero)
+    private let bgImageView = UIImageView(frame: .zero)
+    private let roundView = UIView(frame: .zero)
+    private let titleLabel = UILabel()
+    private let subTitleLabel = UILabel()
     private var aaChartView = AAChartView()
     lazy private var mockData: [HeartRateAggregateItem] = self.generateMockData(24)
     
@@ -32,6 +33,7 @@ class ChartView: UIView {
         self.bgImageView.alpha = 0.2
         self.iconView.image = UIImage(named: "heart.png")
         self.bgImageView.image = UIImage(named: "backgroundey.png")
+        self.bgImageView.isHidden = true
         self.roundView.layer.cornerRadius = 19
         self.roundView.layer.borderWidth = 0.8
         self.roundView.layer.borderColor = UIColor.lightGray.cgColor
@@ -39,7 +41,6 @@ class ChartView: UIView {
         self.layer.masksToBounds = true
         self.setupViews()
         self.setupConstraints()
-        self.configureColumnrangeMixedLineChart()
         self.backgroundColor = .white
     }
     
@@ -99,26 +100,41 @@ class ChartView: UIView {
         aaChartView.translatesAutoresizingMaskIntoConstraints = false
         aaChartView.scrollView.contentInsetAdjustmentBehavior = .never
     }
+    func roundToTens(_ x : Double) -> Double {
+        return 10 * Double((x / 10.0).rounded())
+    }
     
-    private func configureColumnrangeMixedLineChart() {
+    func calculateMaxValue() -> Double {
+        var array = [Double]()
+        _ =  mockData.map {
+            let maxNum = $0.max ?? 0
+            array.append(maxNum)
+        }
+        return array.max()!
+    }
+
+    public func configureChart(maxValue: Double, lineColor: String, rangeColor: String, labels: [String]) {
+        // data
+        let dataAvg = mockData.map{ $0.avg }
+        let dataMinMax = mockData.map{ [$0.min, $0.max] }
+        //model
         let aaChartModel = AAChartModel()
-            .colorsTheme(["#FFE5E5"])
+            .colorsTheme([rangeColor]) // rangeColor
             .chartType(.columnrange)
             .animationType(.easeInQuint)
             .axesTextColor(AAColor.black)
             .xAxisVisible(true)
             .legendEnabled(false)
-            .yAxisMin(40) //start showing data from 40bpm
             .margin(top: 10.0, right: 10.0, bottom: 40.0, left: 30.0)
-            
+        //series
             .series([
                 AASeriesElement()
                     .type(.line)
-                    .color("#FF0000")
+                    .color(lineColor) // lineColor
                     .lineWidth(0.8)
                     .enableMouseTracking(false)
                     .zIndex(1)
-                    .data(mockData.map{ $0.avg })
+                    .data(dataAvg as [Any])
                     .marker(AAMarker()
                                 .lineWidth(0.7)
                                 .lineColor(AAColor.white)
@@ -129,36 +145,47 @@ class ChartView: UIView {
                 AASeriesElement()
                     .enableMouseTracking(false)
                     .zIndex(0)
-                    .data(mockData.map{ [$0.min, $0.max] })
+                    .data(dataMinMax)
             ])
         
         let aaOptions = AAOptionsConstructor.configureChartOptions(aaChartModel)
+        aaOptions.plotOptions?.columnrange(AAColumnrange()
+                .borderRadius(5)
+                .borderWidth(0)
+                )
+        // Y axis
         aaOptions.yAxis?
+            .max(maxValue).min(0)
+            .allowDecimals(false)
             .lineWidth(0)
             .gridLineWidth(0)
+            .alternateGridColor("#F9F9FA")
+            
+            //add here cardiac plotBands
+            .tickInterval(Float(maxValue/10.0))
         aaOptions.yAxis?.labels(AALabels()
                                     .x(-30)
-                                    .align("left")
+                                    .align(AAChartAlignType.left.rawValue)
                                     .style(AAStyle()
                                             .color(AAColor.black)
                                             .fontWeight(AAChartFontWeightType.regular)
-                                            .fontSize(13)))
+                                            .fontSize(13)
+                                    )
+                                )
+        // X axis
         aaOptions.xAxis?
-            .tickPositions([0, 12, 23])
+            .tickInterval(23)
             .gridLineWidth(1)
             .gridLineDashStyle(.shortDash)
-        aaOptions.xAxis?.labels(AALabels()
+            .labels(AALabels()
                                     .y(20)
                                     .x(-9)
-                                    .align("left")
+                                    .align(AAChartAlignType.left.rawValue)
                                     .style(AAStyle()
                                             .color(AAColor.black)
                                             .fontWeight(AAChartFontWeightType.regular)
                                             .fontSize(13)))
-        aaOptions.plotOptions?.columnrange(AAColumnrange()
-                                            .borderRadius(5)
-                                            .borderWidth(0))
-        aaOptions.xAxis?.categories(createXAxisLabels())
+            .categories(createXAxisLabels(labels))
         self.aaChartView.aa_drawChartWithChartOptions(aaOptions)
     }
     
@@ -175,23 +202,23 @@ class ChartView: UIView {
         if shouldBeNil {
             return HeartRateAggregateItem(max: nil, min: nil, avg: nil)
         }
-        let min = Int.random(in: 50...100)
-        let max = min + Int.random(in: 10...50)
+        let min = Double.random(in: 50...200)
+        let max = min + Double.random(in: 10...50)
         let avg = (max + min) / 2
         return HeartRateAggregateItem(max: max, min: min, avg: avg)
     }
     
-    func createXAxisLabels() -> [String] {
+    func createXAxisLabels(_ labels: [String]) -> [String] {
         var array = [String]()
-        array.append("12 AM")
-        for _ in 0..<12 - 1  {
+        array.append(labels.first ?? "")
+        for _ in 0..<24 - 2  {
             array.append("")
         }
-        array.append("12 PM")
-        for _ in 12..<24  {
-            array.append("")
-        }
-        print(array.count)
+        array.append(labels.last ?? "")
+//        for _ in 12..<24  {
+//            array.append("")
+//        }
+//        print(array.count)
         return array
     }
     
@@ -199,7 +226,7 @@ class ChartView: UIView {
         let filterNil = mockData.filter{ $0.avg != nil }
         let arrayAverage = filterNil.map{ $0.avg! }
         let addArrayAverage = arrayAverage.reduce(0, +)
-        let dailyAverage = addArrayAverage / arrayAverage.count
+        let dailyAverage = Int(addArrayAverage) % arrayAverage.count
         return dailyAverage
     }
 }
