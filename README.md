@@ -1,4 +1,4 @@
-### project set up WORKFLOW
+### Sourcetree WORKFLOW
 
 
 ![alt tag](https://img.shields.io/badge/git%20-Rebase%20project-blue)
